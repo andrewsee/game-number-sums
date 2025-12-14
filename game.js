@@ -133,7 +133,7 @@ function updateStatus() {
         statusEl.textContent = 'Game Complete!';
         statusEl.style.color = 'green';
     } else {
-        statusEl.textContent = `Lives remaining: ${3 - redCount}/3`;
+        statusEl.innerHTML = `<span style="font-size: 2em; color: red;">${'♥'.repeat(3 - redCount)}</span>`;
         statusEl.style.color = 'black';
     }
 }
