@@ -6,6 +6,7 @@ let colorTable = [];
 let colSums = [];
 let rowSums = [];
 let gameOver = false;
+let showTempValues = true;
 
 function initGame() {
     table = Array(size).fill().map(() => Array(size).fill().map(() => 
@@ -46,12 +47,32 @@ function renderTable() {
     tableEl.innerHTML = '';
     tableEl.className = `size-${size}`;
 
+    // Calculate summaries
+    const rowGreenSums = Array(size).fill(0);
+    const rowRedSums = Array(size).fill(0);
+    const colGreenSums = Array(size).fill(0);
+    const colRedSums = Array(size).fill(0);
+    
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            if (table[i][j] !== 0) {
+                if (colorTable[i][j] === 'green') {
+                    rowGreenSums[i] += table[i][j];
+                    colGreenSums[j] += table[i][j];
+                } else if (colorTable[i][j] === 'red') {
+                    rowRedSums[i] += table[i][j];
+                    colRedSums[j] += table[i][j];
+                }
+            }
+        }
+    }
+
     // Header row with column sums
     const headerRow = tableEl.insertRow();
     headerRow.insertCell().className = 'sum-cell';
     for (let j = 0; j < size; j++) {
         const cell = headerRow.insertCell();
-        cell.textContent = colSums[j];
+        cell.textContent = showTempValues ? `${colSums[j]} / ${colGreenSums[j] + colRedSums[j]}` : `${colSums[j]}`;
         cell.className = 'sum-cell';
     }
 
@@ -61,7 +82,7 @@ function renderTable() {
         
         // Row sum cell
         const sumCell = row.insertCell();
-        sumCell.textContent = rowSums[i];
+        sumCell.textContent = showTempValues ? `${rowSums[i]} / ${rowGreenSums[i] + rowRedSums[i]}` : `${rowSums[i]}`;
         sumCell.className = 'sum-cell';
 
         // Data cells
@@ -95,7 +116,7 @@ function renderTable() {
                 deleteCell(i, j);
             };
         }
-    }
+        }
 }
 
 function selectCell(i, j) {
@@ -187,6 +208,12 @@ function updateStatus() {
 function setDifficulty(newSize) {
     size = newSize;
     newGame();
+}
+
+function toggleTempValues() {
+    showTempValues = !showTempValues;
+    document.getElementById('tempToggle').textContent = showTempValues ? 'Hide Partial Selection' : 'Show Partial Selection';
+    renderTable();
 }
 
 function newGame() {
