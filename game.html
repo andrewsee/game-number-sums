@@ -19,6 +19,10 @@
         .controls { margin: 20px; }
         button { padding: 10px 20px; margin: 5px; font-size: 16px; }
         .status { margin: 20px; font-size: 18px; font-weight: bold; display: none; }
+        @media (max-width: 768px) {
+            .game-container { flex-direction: column; }
+            .instructions { order: 2; }
+        }
     </style>
 </head>
 <body>
@@ -33,7 +37,7 @@
         </div>
     </div>
     <div class="game-area">
-        <h1>Table Game</h1>
+        <h1 style="color: blue;">Number Sums</h1>
         <div class="status" id="status"></div>
         <table id="gameTable"></table>
     </div>
