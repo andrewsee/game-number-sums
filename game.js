@@ -69,16 +69,23 @@ function renderTable() {
             
             if (deletedTable[i][j]) {
                 cell.textContent = '';
+            } else if (colorTable[i][j] === 'red') {
+                const displayValue = table[i][j] === 0 ? maskTable[i][j] : table[i][j];
+                if (table[i][j] === 0) {
+                    cell.innerHTML = `<span class="red-circle" style="color: white;">${displayValue}</span>`;
+                } else {
+                    cell.innerHTML = `<span class="red-circle">${displayValue}</span>`;
+                }
+            } else if (colorTable[i][j] === 'green') {
+                if (table[i][j] === 0) {
+                    cell.innerHTML = `<span class="green-circle" style="color: white;">${maskTable[i][j]}</span>`;
+                } else {
+                    cell.innerHTML = `<span class="green-circle">${table[i][j]}</span>`;
+                }
             } else if (table[i][j] === 0) {
                 cell.textContent = maskTable[i][j];
             } else {
                 cell.textContent = table[i][j];
-            }
-
-            if (colorTable[i][j] === 'red') {
-                cell.className = 'red';
-            } else if (colorTable[i][j] === 'green') {
-                cell.className = 'green';
             }
 
             cell.onclick = () => selectCell(i, j);
