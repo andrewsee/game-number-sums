@@ -95,19 +95,57 @@ function selectCell(i, j) {
 
     if (table[i][j] === 0) {
         colorTable[i][j] = 'red';
+        deletedTable[i][j] = true;
     } else {
         colorTable[i][j] = 'green';
+        checkAutoComplete(i, j);
     }
     
     renderTable();
     updateStatus();
 }
 
+function checkAutoComplete(row, col) {
+    // Check row completion
+    let rowComplete = true;
+    for (let j = 0; j < size; j++) {
+        if (table[row][j] !== 0 && colorTable[row][j] !== 'green') {
+            rowComplete = false;
+            break;
+        }
+    }
+    if (rowComplete) {
+        for (let j = 0; j < size; j++) {
+            if (table[row][j] === 0 && colorTable[row][j] === null) {
+                colorTable[row][j] = 'green';
+                deletedTable[row][j] = true;
+            }
+        }
+    }
+
+    // Check column completion
+    let colComplete = true;
+    for (let i = 0; i < size; i++) {
+        if (table[i][col] !== 0 && colorTable[i][col] !== 'green') {
+            colComplete = false;
+            break;
+        }
+    }
+    if (colComplete) {
+        for (let i = 0; i < size; i++) {
+            if (table[i][col] === 0 && colorTable[i][col] === null) {
+                colorTable[i][col] = 'green';
+                deletedTable[i][col] = true;
+            }
+        }
+    }
+}
+
 function deleteCell(i, j) {
     if (gameOver || colorTable[i][j] !== null || deletedTable[i][j]) return;
 
-    deletedTable[i][j] = true;
     if (table[i][j] === 0) {
+        deletedTable[i][j] = true;
         colorTable[i][j] = 'green';
     } else {
         colorTable[i][j] = 'red';
