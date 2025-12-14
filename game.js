@@ -44,6 +44,7 @@ function initGame() {
 function renderTable() {
     const tableEl = document.getElementById('gameTable');
     tableEl.innerHTML = '';
+    tableEl.className = `size-${size}`;
 
     // Header row with column sums
     const headerRow = tableEl.insertRow();
@@ -105,9 +106,9 @@ function selectCell(i, j) {
         deletedTable[i][j] = true;
     } else {
         colorTable[i][j] = 'green';
-        checkAutoComplete(i, j);
     }
-    
+
+    checkAutoComplete(i, j);
     renderTable();
     updateStatus();
 }
@@ -116,7 +117,7 @@ function checkAutoComplete(row, col) {
     // Check row completion
     let rowComplete = true;
     for (let j = 0; j < size; j++) {
-        if (table[row][j] !== 0 && colorTable[row][j] !== 'green') {
+        if (table[row][j] !== 0 && colorTable[row][j] === null) {
             rowComplete = false;
             break;
         }
@@ -133,7 +134,7 @@ function checkAutoComplete(row, col) {
     // Check column completion
     let colComplete = true;
     for (let i = 0; i < size; i++) {
-        if (table[i][col] !== 0 && colorTable[i][col] !== 'green') {
+        if (table[i][col] !== 0 && colorTable[i][col] === null) {
             colComplete = false;
             break;
         }
@@ -157,7 +158,7 @@ function deleteCell(i, j) {
     } else {
         colorTable[i][j] = 'red';
     }
-    
+    checkAutoComplete(i, j);
     renderTable();
     updateStatus();
 }
@@ -181,6 +182,11 @@ function updateStatus() {
         statusEl.innerHTML = `<span style="font-size: 2em; color: red;">${'♥'.repeat(3 - redCount)}</span>`;
         statusEl.style.color = 'black';
     }
+}
+
+function setDifficulty(newSize) {
+    size = newSize;
+    newGame();
 }
 
 function newGame() {

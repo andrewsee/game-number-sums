@@ -11,6 +11,8 @@
         .game-area { flex: 1; text-align: center; }
         table { border-collapse: collapse; margin: 20px auto; background: white; display: none; }
         td { width: 60px; height: 60px; border: 2px solid #333; text-align: center; font-weight: bold; cursor: pointer; box-sizing: border-box; }
+        .size-10 td { width: 40px; height: 40px; font-size: 12px; }
+        .size-4 td { width: 80px; height: 80px; font-size: 18px; }
         .selected { background: #ddd !important; }
         .red { background: #ff4444; color: white; }
         .green-circle { display: inline-block; width: 30px; height: 30px; border: 2px solid #44ff44; border-radius: 50%; line-height: 26px; text-align: center; }
@@ -34,6 +36,9 @@
         <p><strong>Controls:</strong> Click to select cell | Right-click to delete cell</p>
         <div class="controls">
             <button onclick="newGame()">New Game</button>
+            <button onclick="setDifficulty(4)">Easy (4x4)</button>
+            <button onclick="setDifficulty(6)">Medium (6x6)</button>
+            <button onclick="setDifficulty(10)">Hard (10x10)</button>
         </div>
     </div>
     <div class="game-area">
