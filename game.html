@@ -46,8 +46,9 @@
             <button onclick="setDifficulty(6)">Medium (6x6)</button>
             <button onclick="setDifficulty(10)">Hard (10x10)</button>
         </div>
-        <div style="margin: 10px 0;">
+        <div id="gameButtons" style="margin: 10px 0; display: none;">
             <button onclick="toggleTempValues()" id="tempToggle">Hide Partial Selection</button>
+            <button onclick="showHint()" id="hintButton">Show Hint (3)</button>
         </div>
         <div class="status" id="status"></div>
         <table id="gameTable"></table>

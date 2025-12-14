@@ -7,6 +7,7 @@ let colSums = [];
 let rowSums = [];
 let gameOver = false;
 let showTempValues = true;
+let hintsRemaining = 3;
 
 function initGame() {
     table = Array(size).fill().map(() => Array(size).fill().map(() => 
@@ -196,9 +197,15 @@ function updateStatus() {
         statusEl.textContent = 'Game Over! No lives remaining.';
         statusEl.style.color = 'red';
         gameOver = true;
+        showTempValues = false;
+        document.getElementById('tempToggle').disabled = true;
+        renderTable();
     } else if (allColored) {
         statusEl.textContent = 'Game Complete!';
         statusEl.style.color = 'green';
+        showTempValues = false;
+        document.getElementById('tempToggle').disabled = true;
+        renderTable();
     } else {
         statusEl.innerHTML = `<span style="font-size: 2em; color: red;">${'♥'.repeat(3 - redCount)}</span>`;
         statusEl.style.color = 'black';
@@ -216,9 +223,44 @@ function toggleTempValues() {
     renderTable();
 }
 
+function showHint() {
+    if (gameOver || hintsRemaining <= 0) return;
+    
+    const availableCells = [];
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            if (colorTable[i][j] === null && !deletedTable[i][j]) {
+                availableCells.push([i, j]);
+            }
+        }
+    }
+    
+    if (availableCells.length === 0) return;
+    
+    const [i, j] = availableCells[Math.floor(Math.random() * availableCells.length)];
+    
+    if (table[i][j] === 0) {
+        deleteCell(i, j);
+    } else {
+        selectCell(i, j);
+    }
+    
+    hintsRemaining--;
+    document.getElementById('hintButton').textContent = `Show Hint (${hintsRemaining})`;
+    if (hintsRemaining <= 0) {
+        document.getElementById('hintButton').disabled = true;
+    }
+}
+
 function newGame() {
     gameOver = false;
+    hintsRemaining = 3;
     document.getElementById('gameTable').style.display = 'table';
     document.getElementById('status').style.display = 'block';
+    document.getElementById('gameButtons').style.display = 'block';
+    document.getElementById('hintButton').textContent = 'Show Hint (3)';
+    document.getElementById('hintButton').disabled = false;
+    document.getElementById('tempToggle').disabled = false;
+    showTempValues = true;
     initGame();
 }
