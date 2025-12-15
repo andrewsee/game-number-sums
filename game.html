@@ -6,9 +6,8 @@
     <title>Table Game</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 0; padding: 20px; }
-        .game-container { display: flex; gap: 20px; align-items: flex-start; }
-        .instructions { flex: 0 0 300px; padding: 15px; background: #fff; border-radius: 8px; }
-        .game-area { flex: 1; text-align: center; }
+        .game-container { display: flex; justify-content: center; }
+        .game-area { text-align: center; }
         table { border-collapse: collapse; margin: 20px auto; background: white; display: none; }
         td { width: 60px; height: 60px; border: 2px solid #333; text-align: center; font-weight: bold; cursor: pointer; box-sizing: border-box; }
         .size-10 td { width: 50px; height: 50px; font-size: 14px; }
@@ -21,6 +20,11 @@
         .controls { margin: 20px; }
         .game-controls { margin: 20px 0; }
         .game-controls button { padding: 10px 20px; margin: 5px; font-size: 16px; width: 120px; }
+        .difficulty-easy { background: #4CAF50; color: white; }
+        .difficulty-medium { background: #FF9800; color: white; }
+        .difficulty-hard { background: #F44336; color: white; }
+        .info-btn { width: 30px; height: 30px; border-radius: 50%; background: #2196F3; color: white; border: none; font-size: 20px; font-weight: bold; cursor: pointer; margin-left: 10px; display: inline-flex; align-items: center; justify-content: center; }
+        .instructions-box { background: white; padding: 15px; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 500px; box-sizing: border-box; }
         button { padding: 10px 20px; margin: 5px; font-size: 16px; }
         .status { margin: 20px; font-size: 18px; font-weight: bold; display: none; height: 2em; line-height: 2em; }
         @media (max-width: 768px) {
@@ -31,20 +35,19 @@
 </head>
 <body>
 <div class="game-container">
-    <div class="instructions">
-        <h2>Instructions</h2>
-        <p><strong>Goal:</strong> Select cells that are part of the sum on top or on left. Try to make smart choices -
-            you only have 3 lives before game over!</p>
-        <p><strong>Controls:</strong> Click to select cell | Right-click to delete cell</p>
-
-    </div>
     <div class="game-area">
-        <h1 style="color: blue;">Number Sums</h1>
+        <h1 style="color: blue;">Number Sums <button class="info-btn" onclick="showInfo()">i</button></h1>
+        <div class="instructions-box" id="instructionsBox">
+            <h3>Instructions</h3>
+            <p><strong>Goal:</strong> Select cells that are part of the total on top or on left. Try to make smart choices -
+                you only have 3 lives before game over!</p>
+            <p><strong>Controls:</strong> Click to select cell | Right-click to delete cell</p>
+        </div>
         <div class="game-controls">
             <button onclick="newGame()">New Game</button>
-            <button onclick="setDifficulty(4)">Easy (4x4)</button>
-            <button onclick="setDifficulty(6)">Medium (6x6)</button>
-            <button onclick="setDifficulty(10)">Hard (10x10)</button>
+            <button onclick="setDifficulty(4)" class="difficulty-easy">Easy (4x4)</button>
+            <button onclick="setDifficulty(6)" class="difficulty-medium">Medium (6x6)</button>
+            <button onclick="setDifficulty(8)" class="difficulty-hard">Hard<br>(8x8)</button>
         </div>
         <div id="gameButtons" style="margin: 10px 0; display: none;">
             <button onclick="toggleTempValues()" id="tempToggle">Hide Partial Selection</button>
@@ -55,6 +58,7 @@
     </div>
 </div>
 
+<script src="renderer.js"></script>
 <script src="game.js"></script>
 </body>
 </html>
