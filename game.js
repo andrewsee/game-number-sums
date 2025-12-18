@@ -137,6 +137,9 @@ function updateStatus() {
 
 function setDifficulty(newSize) {
     size = newSize;
+    if (newSize === 0) {
+        size = Math.floor(Math.random() * 5) + 4;
+    }
     newGame();
 }
 
