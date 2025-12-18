@@ -145,6 +145,7 @@ function setDifficulty(newSize) {
 
 function toggleTempValues() {
     showTempValues = !showTempValues;
+    localStorage.setItem('showTempValues', showTempValues);
     document.getElementById('tempToggle').textContent = showTempValues ? 'Hide Partial Selection' : 'Show Partial Selection';
     renderTable();
 }
@@ -192,6 +193,7 @@ function newGame() {
     document.getElementById('hintButton').textContent = 'Show Hint (3)';
     document.getElementById('hintButton').disabled = false;
     document.getElementById('tempToggle').disabled = false;
-    showTempValues = true;
+    showTempValues = localStorage.getItem('showTempValues') !== 'false';
+    document.getElementById('tempToggle').textContent = showTempValues ? 'Hide Partial Selection' : 'Show Partial Selection';
     initGame();
 }
