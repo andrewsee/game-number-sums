@@ -65,6 +65,10 @@ function renderTable() {
             } else {
                 cell.textContent = table[i][j];
             }
+            
+            if (backgroundColorTable[i][j]) {
+                cell.style.backgroundColor = backgroundColorTable[i][j];
+            }
 
             cell.onclick = () => selectCell(i, j);
             cell.oncontextmenu = (e) => {
@@ -73,4 +77,16 @@ function renderTable() {
             };
         }
         }
+}
+
+function toggleTempValues() {
+    showTempValues = !showTempValues;
+    localStorage.setItem('showTempValues', showTempValues);
+    document.getElementById('tempToggle').textContent = showTempValues ? 'Hide Partial Selection' : 'Show Partial Selection';
+    renderTable();
+}
+
+function showInfo() {
+    const box = document.getElementById('instructionsBox');
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
 }
