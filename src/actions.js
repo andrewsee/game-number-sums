@@ -106,15 +106,19 @@ function updateStatus() {
         gameOver = true;
         showTempValues = false;
         document.getElementById('tempToggle').disabled = true;
+        document.getElementById('hintButton').disabled = true;
         renderTable();
     } else if (allColored) {
         statusEl.textContent = 'Game Complete!';
         statusEl.style.color = 'green';
         showTempValues = false;
         document.getElementById('tempToggle').disabled = true;
+        document.getElementById('hintButton').disabled = true;
         renderTable();
     } else {
-        statusEl.innerHTML = `<span style="font-size: 2em; color: red;">${'♥'.repeat(3 - redCount)}</span>`;
+        const redHearts = '♥'.repeat(3 - redCount);
+        const whiteHearts = '♥'.repeat(redCount);
+        statusEl.innerHTML = `<span style="font-size: 3em; color: red;">${redHearts}</span><span style="font-size: 3em; color: black;">${whiteHearts}</span>`;
         statusEl.style.color = 'black';
     }
 }
