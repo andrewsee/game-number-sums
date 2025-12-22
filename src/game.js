@@ -13,7 +13,7 @@ let hintsRemaining = 3;
 function newGame(newSize) {
     size = newSize;
     if (newSize === 0) {
-        size = Math.floor(Math.random() * 5) + 4;
+        size = Math.floor(Math.random() * 4) + 4;
     }
     gameOver = false;
     hintsRemaining = 3;
