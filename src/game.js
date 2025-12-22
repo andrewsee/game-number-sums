@@ -9,6 +9,12 @@ let rowSums = [];
 let gameOver = false;
 let showTempValues = true;
 let hintsRemaining = 3;
+let precomputedBackgrounds = {
+    "4": [],
+    "5": [],
+    "6": [],
+    "7": [],
+};
 
 function newGame(newSize) {
     size = newSize;
@@ -41,39 +47,6 @@ function checkEveryNotZero() {
     }
 }
 
-function addColors() {
-    const allColors = ['#ffeeee', '#eeffee', '#eeeeff', '#ffffee', '#ffeeff', '#eeffff', '#fff0e6', '#f0e6ff'];
-    const lightColors = allColors.slice(0, size);
-    const visited = Array(size).fill().map(() => Array(size).fill(false));
-    const path = [];
-    
-    function backtrack(row, col) {
-        if (path.length === size * size) return true;
-        if (row < 0 || row >= size || col < 0 || col >= size || visited[row][col]) return false;
-        
-        visited[row][col] = true;
-        path.push([row, col]);
-        
-        const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-        directions.sort(() => Math.random() - 0.5);
-        
-        for (const [dr, dc] of directions) {
-            if (backtrack(row + dr, col + dc)) return true;
-        }
-        
-        visited[row][col] = false;
-        path.pop();
-        return false;
-    }
-    
-    if (backtrack(2, 2)) {
-        path.forEach(([row, col], i) => {
-            const colorIndex = Math.floor(i / size) % lightColors.length;
-            backgroundColorTable[row][col] = lightColors[colorIndex];
-        });
-    }
-}
-
 function initGame() {
     table = Array(size).fill().map(() => Array(size).fill().map(() =>
         Math.random() < 0.5 ? 0 : Math.floor(Math.random() * 9) + 1
@@ -87,8 +60,12 @@ function initGame() {
     deletedTable = Array(size).fill().map(() => Array(size).fill(false));
     colorTable = Array(size).fill().map(() => Array(size).fill(null));
     backgroundColorTable = Array(size).fill().map(() => Array(size).fill(null));
-    
-    addColors();
+
+    if (precomputedBackgrounds[size].length === 0) {
+        prepareBackgroundTable(size)
+    }
+    precomputeBackgrounds()
+    backgroundColorTable = precomputedBackgrounds[`${size}`].shift()
 
     colSums = Array(size).fill().map((_, j) => 
         table.reduce((sum, row) => sum + (row[j] !== 0 ? row[j] : 0), 0)
@@ -100,3 +77,7 @@ function initGame() {
     renderTable();
     updateStatus();
 }
+
+window.addEventListener('load', () => {
+    precomputeBackgrounds();
+});
