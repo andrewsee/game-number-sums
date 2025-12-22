@@ -70,6 +70,33 @@ function renderTable() {
                 cell.style.backgroundColor = backgroundColorTable[i][j];
             }
 
+            let touchStartTime = 0;
+            let touchTimer = null;
+            
+            cell.ontouchstart = (e) => {
+                e.preventDefault();
+                touchStartTime = Date.now();
+                touchTimer = setTimeout(() => {
+                    deleteCell(i, j);
+                }, 500); // Long press for delete
+            };
+            
+            cell.ontouchend = (e) => {
+                e.preventDefault();
+                if (touchTimer) {
+                    clearTimeout(touchTimer);
+                    if (Date.now() - touchStartTime < 500) {
+                        selectCell(i, j); // Short tap for select
+                    }
+                }
+            };
+            
+            cell.ontouchcancel = (e) => {
+                if (touchTimer) {
+                    clearTimeout(touchTimer);
+                }
+            };
+
             cell.onclick = () => selectCell(i, j);
             cell.oncontextmenu = (e) => {
                 e.preventDefault();
